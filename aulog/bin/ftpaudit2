@@ -1,0 +1,5 @@
+open 10.0.31.40
+user linuxusr Audit0616
+prompt
+mput ediproxy1T_login*.txt
+bye

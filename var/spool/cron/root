@@ -1,0 +1,3 @@
+0 0 * * * /usr/sbin/ntpdate 172.29.0.131
+55 23 * * * /aulog/bin/col_aulog.ms.sh
+#30 17 6 9 5 /sbin/halt

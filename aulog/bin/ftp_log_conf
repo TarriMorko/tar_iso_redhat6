@@ -1,0 +1,6 @@
+open 10.0.31.4
+user R6USR LogU$r4r6
+mput *OSLog*
+close
+bye
+
