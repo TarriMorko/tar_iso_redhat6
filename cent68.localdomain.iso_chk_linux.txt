@@ -1,0 +1,587 @@
+############################
+# LINUX系統強化檢核表附件  #
+#        第一次強化        #
+############################
+  
+Hostname: cent68.localdomain
+  
+1-1 登錄畫面的welcome message是否含有系統資訊？
+==================================
+ cat /etc/issue
+
+TCB's internal systems must only be used for conducting TCB's business or for purposes authorized by TCB management
+
+
+
+---------   ----------  ----------- 
+cat /etc/issue.net
+TCB's internal systems must only be used for conducting TCB's business or for purposes authorized by TCB management
+
+----------------------------------
+  
+  
+2-1 確認密碼品質依管理要點設定？
+==================================
+ cat /etc/login.defs|grep PASS_MAX_DAYS
+PASS_MAX_DAYS	28
+---------   ----------  ----------- 
+egrep -i -o remember=[0-9] /etc/pam.d/system-auth
+remember=5
+----------------------------------
+egrep -i -o minlen=[0-9] /etc/pam.d/system-auth
+----------------------------------
+  
+  
+2-2 確認使用者帳號的可辨別性？
+==================================
+ cat /etc/passwd 
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucp:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+gopher:x:13:30:gopher:/var/gopher:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:99:99:Nobody:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+usbmuxd:x:113:113:usbmuxd user:/:/sbin/nologin
+rpc:x:32:32:Rpcbind Daemon:/var/cache/rpcbind:/sbin/nologin
+rtkit:x:499:499:RealtimeKit:/proc:/sbin/nologin
+avahi-autoipd:x:170:170:Avahi IPv4LL Stack:/var/lib/avahi-autoipd:/sbin/nologin
+vcsa:x:69:69:virtual console memory owner:/dev:/sbin/nologin
+abrt:x:173:173::/etc/abrt:/sbin/nologin
+rpcuser:x:29:29:RPC Service User:/var/lib/nfs:/sbin/nologin
+nfsnobody:x:65534:65534:Anonymous NFS User:/var/lib/nfs:/sbin/nologin
+haldaemon:x:68:68:HAL daemon:/:/sbin/nologin
+ntp:x:38:38::/etc/ntp:/sbin/nologin
+apache:x:48:48:Apache:/var/www:/sbin/nologin
+saslauth:x:498:76:Saslauthd user:/var/empty/saslauth:/sbin/nologin
+postfix:x:89:89::/var/spool/postfix:/sbin/nologin
+gdm:x:42:42::/var/lib/gdm:/sbin/nologin
+pulse:x:497:496:PulseAudio System Daemon:/var/run/pulse:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+tcpdump:x:72:72::/:/sbin/nologin
+erwin:x:500:500::/home/erwin:/bin/bash
+root:x:0:0:root:/root:/bin/bash
+operator:x:11:0:operator:/root:/sbin/nologin
+cbedi:x:1011:1010:cbedi:/home/cbedi:/bin/bash
+dc01:x:901:900:dc01:/home/dc01:/bin/bash
+dcporting:x:921:920:dcporting:/home/dcporting:/bin/bash
+dcporting1:x:922:920:dcporting1:/home/dcporting1:/bin/bash
+emdeaedi:x:1021:1020:emdeaedi:/home/emdeaedi:/bin/bash
+itmadm:x:671:670:itmadm:/itm/bin:/bin/bash
+opusr:x:802:800:opusr:/home/opusr:/bin/bash
+spadmin:x:712:700:spadmin:/home/spadmin:/bin/bash
+spos1:x:701:700:spos1:/home/spos1:/bin/bash
+spos3:x:703:700:spos3:/home/spos3:/bin/bash
+spos2:x:702:700:spos2:/home/spos2:/bin/bash
+----------------------------------
+  
+  
+2-3確認root帳號之管理是否適當？ 
+==================================
+2-3-2 確認/etc/passwd及/etc/group，root之uid及gid 
+同 2-2 /etc/passwd 檔
+----------------------------------
+ cat /etc/group  
+root:x:0:
+bin:x:1:bin,daemon
+daemon:x:2:bin,daemon
+sys:x:3:bin,adm
+adm:x:4:adm,daemon
+tty:x:5:
+disk:x:6:
+lp:x:7:daemon
+mem:x:8:
+kmem:x:9:
+wheel:x:10:
+mail:x:12:mail,postfix
+uucp:x:14:
+man:x:15:
+games:x:20:
+gopher:x:30:
+video:x:39:
+dip:x:40:
+ftp:x:50:
+lock:x:54:
+audio:x:63:
+nobody:x:99:
+users:x:100:
+dbus:x:81:
+usbmuxd:x:113:
+rpc:x:32:
+utmp:x:22:
+utempter:x:35:
+rtkit:x:499:
+avahi-autoipd:x:170:
+desktop_admin_r:x:498:
+desktop_user_r:x:497:
+floppy:x:19:
+vcsa:x:69:
+abrt:x:173:
+cdrom:x:11:
+tape:x:33:
+dialout:x:18:
+wbpriv:x:88:
+rpcuser:x:29:
+nfsnobody:x:65534:
+haldaemon:x:68:haldaemon
+ntp:x:38:
+apache:x:48:
+saslauth:x:76:
+postdrop:x:90:
+postfix:x:89:
+gdm:x:42:
+pulse:x:496:
+pulse-access:x:495:
+fuse:x:494:
+sshd:x:74:
+slocate:x:21:
+stapusr:x:156:
+stapsys:x:157:
+stapdev:x:158:
+tcpdump:x:72:
+erwin:x:500:
+dc01:x:900:
+spos:x:700:
+----------------------------------
+  
+2-3-3 列出/etc/passwd及/etc/group中，uid及gid為0的所有使用者
+==================================
+root:x:0:0:root:/root:/bin/bash
+----------------------------------
+  
+  
+2-4 確認不必要系統預設帳號是否移除或鎖定 
+==================================
+2-4-1 檢查/etc/passwd帳號列表，是否留有guest帳號？ 
+本系統無 GUEST 帳號。
+----------------------------------
+  
+  
+2-4-2 列示廠商使用之帳號 
+==================================
+如2-2 /etc/passwd 檔
+無廠商使用之帳號
+----------------------------------
+  
+  
+2-4-3 列示所有系統預設帳號
+==================================
+cat /etc/passwd |awk 'FS=:  {print ,}'|awk ' < 200 {print }'
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon
+adm
+lp
+sync
+shutdown
+halt
+mail
+uucp
+games
+gopher
+ftp
+nobody
+dbus
+usbmuxd
+rpc
+avahi-autoipd
+vcsa
+abrt
+rpcuser
+haldaemon
+ntp
+apache
+postfix
+gdm
+sshd
+tcpdump
+root
+operator
+----------------------------------
+  
+  
+2-5 一般帳號管理
+==================================
+2-5-1,2 cat /etc/passwd 
+同 2-2 /etc/passwd 檔
+----------------------------------
+  
+  
+2-5-3 檢查是否有不需密碼即可登入的帳號 
+ 說明:LK為鎖定，PS需密碼登入，NP不需密碼登入
+ cat /etc/passwd | awk -F':' '{print }' | xargs -I {} passwd -S {} | awk '{print , }'
+bin LK
+daemon LK
+adm LK
+lp LK
+sync LK
+shutdown LK
+halt LK
+mail LK
+uucp LK
+games LK
+gopher LK
+ftp LK
+nobody LK
+dbus LK
+usbmuxd LK
+rpc LK
+rtkit LK
+avahi-autoipd LK
+vcsa LK
+abrt LK
+rpcuser LK
+nfsnobody LK
+haldaemon LK
+ntp LK
+apache LK
+saslauth LK
+postfix LK
+gdm LK
+pulse LK
+sshd LK
+tcpdump LK
+erwin PS
+root PS
+operator LK
+cbedi LK
+dc01 PS
+dcporting LK
+dcporting1 LK
+emdeaedi LK
+itmadm LK
+opusr LK
+spadmin LK
+spos1 LK
+spos3 PS
+spos2 PS
+----------------------------------
+  
+2-6 確認強迫使用者未任何動作超過一定時間時，予以強迫登出？
+==================================
+cat /etc/login.defs |grep LOGIN_TIMEOUT
+LOGIN_TIMEOUT 900
+----------------------------------
+  
+  
+2-7 確認系統預設使用者帳號的umask值
+==================================
+cat /etc/login.defs |grep UMASK |grep 027
+UMASK           027
+----------------------------------
+cat /root/.profile |grep umask
+umask 027
+----------------------------------
+  
+  
+2-8 檢查root登入時是否執行非root的程式?
+==================================
+ls -l /root/.profile
+-rw-r--r--. 1 root root 109 Apr 12 16:59 /root/.profile
+export PS1=`hostname`:\$PWD\$
+set -o vi
+unalias ls
+umask 027
+export LC_ALL=zh_TW.utf8
+export LANG=zh_TW.utf8
+----------------------------------
+  
+  
+2-9 確認是否關閉不必需要登入權限的系統預設帳號
+==================================
+本系統有 adm 的系統預設帳號，但 adm 帳號已停用且不具備LoginShell。
+本系統有 bin 的系統預設帳號，但 bin 帳號已停用且不具備LoginShell。
+本系統有 daemon 的系統預設帳號，但 daemon 帳號已停用且不具備LoginShell。
+本系統無 listen 帳號。
+本系統有 lp 的系統預設帳號，但 lp 帳號已停用且不具備LoginShell。
+本系統有 nobody 的系統預設帳號，但 nobody 帳號已停用且不具備LoginShell。
+本系統無 noaccess 帳號。
+本系統無 nuucp 帳號。
+本系統無 smtp 帳號。
+本系統無 sys 帳號。
+本系統有 uucp 的系統預設帳號，但 uucp 帳號已停用且不具備LoginShell。
+----------------------------------
+  
+  
+2-10 系統預設帳號之適當性
+==================================
+2-10-1 檢查帳號列表，是否留有guest帳號？
+本系統無 GUEST 帳號。
+----------------------------------
+  
+  
+2-10-2 列示廠商使用之帳號。
+==================================
+同2-2檢查/etc/passwd
+本系統無廠商帳號
+----------------------------------
+  
+  
+2-10-3 列示所有系統帳號。
+==================================
+bin
+daemon
+adm
+lp
+sync
+shutdown
+halt
+mail
+uucp
+games
+gopher
+ftp
+nobody
+dbus
+usbmuxd
+rpc
+rtkit
+avahi-autoipd
+vcsa
+abrt
+rpcuser
+haldaemon
+ntp
+apache
+saslauth
+postfix
+gdm
+pulse
+sshd
+tcpdump
+erwin
+root
+operator
+dc01
+dcporting
+dcporting1
+itmadm
+opusr
+spadmin
+spos1
+spos3
+spos2
+----------------------------------
+  
+  
+3-1 確認關閉telnet服務
+==================================
+check_services=(telnet)
+檢查服務 telnet 狀態
+#telnet          23/tcp
+#telnet          23/udp
+telnet 服務已關閉
+----------------------------------
+  
+  
+3-2 確認啟用SSH連線伺服器？
+==================================
+netstat -an |grep 22|grep LISTEN
+tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      
+tcp        0      0 :::22                       :::*                        LISTEN      
+----------------------------------
+  
+  
+4-1 確認系統之稽核功能是否已經啟動？ 
+==================================
+4-1-1 ps -ef|grep audit |grep -v grep 
+root       1242      2  0 15:56 ?        00:00:00 [kauditd]
+root       2092      1  0 15:56 ?        00:00:00 auditd
+----------------------------------
+  
+  
+4-1-2 cat auditd.conf |grep -v "#" 
+==================================
+
+log_file = /var/log/audit/audit.log
+log_format = RAW
+log_group = root
+priority_boost = 4
+flush = INCREMENTAL
+freq = 20
+num_logs = 5
+disp_qos = lossy
+dispatcher = /sbin/audispd
+name_format = NONE
+max_log_file = 6 
+max_log_file_action = ROTATE
+space_left = 75
+space_left_action = SYSLOG
+action_mail_acct = root
+admin_space_left = 50
+admin_space_left_action = SUSPEND
+disk_full_action = SUSPEND
+disk_error_action = SUSPEND
+tcp_listen_queue = 5
+tcp_max_per_addr = 1
+tcp_client_max_idle = 0
+enable_krb5 = no
+krb5_principal = auditd
+
+----------------------------------
+  
+  
+4-2 確認log file僅有root具有寫入權限。
+==================================
+ls -l /var/log/audit/audit.log 
+-rw-------. 1 root root 920186 Apr 12 17:40 /var/log/audit/audit.log
+----------------------------------
+  
+  
+5-1 確認cron設定之適當性,及crontab file(/var/spool/cron/tabs)是否適當保護? 
+5-1-1 crontab -l |grep -v "^#"
+==================================
+0 0 * * * /usr/sbin/ntpdate 172.29.0.131
+55 23 * * * /aulog/bin/col_aulog.ms.sh
+----------------------------------
+  
+5-1-2 cat /etc/cron.allow
+==================================
+root
+
+----------------------------------
+  
+  
+6-1 確認作業系統是否已關閉不必要之網路服務(inetd) 
+==================================
+/etc/xinetd.conf
+檢查服務 finger 狀態
+finger          79/tcp
+finger          79/udp
+finger 服務已啟動
+----------------------------------
+  
+檢查服務 ftp 狀態
+ftp             21/tcp
+ftp             21/udp          fsp fspd
+ftp             21/sctp                 # FTP
+ftp 服務已啟動
+----------------------------------
+  
+檢查服務 gopher 狀態
+gopher          70/tcp                          # Internet Gopher
+gopher          70/udp
+gopher 服務已啟動
+----------------------------------
+  
+檢查服務 imap 狀態
+imap            143/tcp         imap2           # Interim Mail Access Proto v2
+imap            143/udp         imap2
+imap 服務已啟動
+----------------------------------
+  
+檢查服務 pop2 狀態
+pop2            109/tcp         pop-2 postoffice        # POP version 2
+pop2            109/udp         pop-2
+pop2 服務已啟動
+----------------------------------
+  
+檢查服務 talk 狀態
+talk            517/udp
+talk            517/tcp                 # like tenex link, but across
+talk 服務已啟動
+----------------------------------
+  
+檢查服務 ntalk 狀態
+ntalk           518/udp
+ntalk           518/tcp                 #
+ntalk 服務已啟動
+----------------------------------
+  
+檢查服務 telnet 狀態
+#telnet          23/tcp
+#telnet          23/udp
+telnet 服務已關閉
+----------------------------------
+  
+檢查服務 uucp 狀態
+uucp            540/tcp         uucpd           # uucp daemon
+uucp            540/udp                 # uucpd
+uucp 服務已啟動
+----------------------------------
+  
+檢查服務 nfs 狀態
+nfs             2049/tcp        nfsd shilp      # Network File System
+nfs             2049/udp        nfsd shilp      # Network File System
+nfs             2049/sctp       nfsd shilp      # Network File System
+nfs 服務已啟動
+----------------------------------
+  
+檢查服務 nis 狀態
+本系統未安裝 nis 服務
+----------------------------------
+  
+  
+6-2 確認只開啟必要之通訊埠及TCP/IP服務
+==================================
+檢查 /etc/xinetd.conf
+檢查服務 ftp 狀態
+本系統ftp服務已關閉，故未開啟ftp的通訊埠及TCP/IP服務
+  
+檢查服務 telnet 狀態
+本系統telnet服務已關閉，故未開啟telnet的通訊埠及TCP/IP服務
+  
+檢查服務 shell 狀態
+本系統shell服務已關閉，故未開啟shell的通訊埠及TCP/IP服務
+  
+檢查服務 login 狀態
+本系統login服務已關閉，故未開啟login的通訊埠及TCP/IP服務
+  
+檢查服務 exec 狀態
+本系統exec服務已關閉，故未開啟exec的通訊埠及TCP/IP服務
+  
+檢查服務 talk 狀態
+本系統talk服務已關閉，故未開啟talk的通訊埠及TCP/IP服務
+  
+檢查服務 ntalk 狀態
+本系統ntalk服務已關閉，故未開啟ntalk的通訊埠及TCP/IP服務
+  
+檢查服務 imap 狀態
+本系統imap服務已關閉，故未開啟imap的通訊埠及TCP/IP服務
+  
+檢查服務 pop2 狀態
+本系統pop2服務已關閉，故未開啟pop2的通訊埠及TCP/IP服務
+  
+檢查服務 pop3 狀態
+本系統pop3服務已關閉，故未開啟pop3的通訊埠及TCP/IP服務
+  
+檢查服務 finger 狀態
+本系統finger服務已關閉，故未開啟finger的通訊埠及TCP/IP服務
+  
+檢查服務 auth 狀態
+本系統auth服務已關閉，故未開啟auth的通訊埠及TCP/IP服務
+  
+----------------------------------
+  
+  
+7-1 確認目前是否已更新至修補程式之最適版本。 
+==================================
+維持半年前之最適版本
+CentOS release 6.8 (Final)
+----------------------------------
+  
+  
+8-1 確認是否執行系統弱點掃描。 
+==================================
+資安科均定期執行弱點掃描
+----------------------------------
+  
+  
+9-1 主機實體之鑰匙是否已妥善保管、使用？
+==================================
+主機實體之鑰匙機房設簿登記管制
+----------------------------------
+  
+  
+9-2 確認光碟機之使用係屬適當？
+==================================
+安裝軟體、開申請單核准後進機房使用
+----------------------------------
+  
+  
